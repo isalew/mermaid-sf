@@ -6,26 +6,32 @@ This repo demonstrates how to embed Mermaid.js diagrams as a Lightning Web Compo
 
 ###### Flow Diagrams
 Show dependencies between components, classes, records, etc.
+
 <img src="config/img/Sample: Flow Diagram.png" alt="Flow Diagram" width="300px"/>
 
 ###### Entity Relation Diagrams
 Dynamically render data models from `sObjectDescribe`, `rest`, or `tooling` APIs.
+
 <img src="config/img/Sample: Entity Relationship Diagram.png" alt="Entity Relationship Diagram" width="300px"/>
 
 ###### Class Diagrams
 Dynamically render class dependencies and relationships.
+
 <img src="config/img/Sample: Class Diagram.png" alt="Class Diagram" width="300px"/>
 
 ###### Sequence Diagrams
 Generate integration flow diagrams.
+
 <img src="config/img/Sample: Sequence Diagram.png" alt="Sequence Diagram" width="300px"/>
 
 ###### Gitflow Diagrams
 Dynamically render branches and commits.
+
 <img src="config/img/Sample: Gitflow Diagram.png" alt="Gitflow Diagram" width="300px"/>
 
 ###### Clickable Diagrams
 Click diagram nodes to open related pages, records, or custom actions.
+
 <img src="config/img/Sample: Clickable Diagram.png" alt="Clickable Diagram" width="300px"/>
 
 ## Getting Started
