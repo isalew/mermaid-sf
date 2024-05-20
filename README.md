@@ -1,18 +1,69 @@
-# Salesforce DX Project: Next Steps
+# Mermaid.js Diagrams for Salesforce
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+This repo demonstrates how to embed Mermaid.js diagrams as a Lightning Web Component.
 
-## How Do You Plan to Deploy Your Changes?
+## Use Cases
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+###### Flow Diagrams
+Show dependencies between components, classes, records, etc.
+<img src="config/img/Sample: Flow Diagram.png" alt="Flow Diagram" width="300px"/>
 
-## Configure Your Salesforce DX Project
+###### Entity Relation Diagrams
+Dynamically render data models from `sObjectDescribe`, `rest`, or `tooling` APIs.
+<img src="config/img/Sample: Entity Relationship Diagram.png" alt="Entity Relationship Diagram" width="300px"/>
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+###### Class Diagrams
+Dynamically render class dependencies and relationships.
+<img src="config/img/Sample: Class Diagram.png" alt="Class Diagram" width="300px"/>
 
-## Read All About It
+###### Sequence Diagrams
+Generate integration flow diagrams.
+<img src="config/img/Sample: Sequence Diagram.png" alt="Sequence Diagram" width="300px"/>
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+###### Gitflow Diagrams
+Dynamically render branches and commits.
+<img src="config/img/Sample: Gitflow Diagram.png" alt="Gitflow Diagram" width="300px"/>
+
+###### Clickable Diagrams
+Click diagram nodes to open related pages, records, or custom actions.
+<img src="config/img/Sample: Clickable Diagram.png" alt="Clickable Diagram" width="300px"/>
+
+## Getting Started
+
+The following commands will deploy the repo into an org.
+
+```bash
+sf org create scratch -a mermaid -f config/project-scratch-def.json -d -y 30
+sf project deploy start
+sf org assign permset -n UseMermaidDiagramEditor
+sf org open -p /lightning/n/MermaidDiagramEditor
+```
+
+The app page will present two examples:
+
+1. A wrapper LWC with a `lightning-textarea` to provide input
+2. Example 2: A wrapper Screen Flow with a flow text area to provide input
+
+## Considerations
+
+- Supported Diagrams
+  - The following diagrams seem to work correctly: `Flowchart`, `Sequence`, `Class`, `State`, `Entity Relationship`, `User Journey`, `Pie Chart`, `Quadrant Chart`, `Requirement Diagram`, `Gitgraph (Git) Diagram`, `C4 Diagram`, `Mindmaps`, `Timeline`, `Sankey`, `XYChart`, `Block Diagram`.
+  - `Gantt` and `Zenuml` diagrams do not work at all.
+  - `Quadrant` diagram labels do not align correctly.
+- The `htmlLabels: false` config setting does not currently work and text will disappear due to an issue with xhtml and svg namespace conflicts.
+- The standard `mermaid.min.js` file uses a `structuredClone()` method, which is unsupported in LWC/LWS. A viable workaround is to find and replace all references with a simple JSON object copy:
+
+```bash
+# Download the latest version of mermaid.js
+npm i mermaid@10.9.0
+# Copy the minified file to overwrite the current static resource
+cp node_modules/mermaid/dist/mermaid.min.js force-app/main/default/staticresources/mermaid.js
+# Replace all `structuredClone()` methods with a simple `JSON.parse(JSON.stringify())` object copy:
+sed -i '' 's/structuredClone(/JSON.parse(JSON.stringify(/g' force-app/main/default/staticresources/mermaid.js
+```
+
+## Resources
+
+- [Mermaid.js Documentation](https://mermaid.js.org/intro/getting-started.html)
+- [Mermaid.js MIT License](https://github.com/mermaid-js/mermaid/blob/develop/LICENSE)
+- [Mermaid.js NPM repository](https://www.npmjs.com/package/mermaid)

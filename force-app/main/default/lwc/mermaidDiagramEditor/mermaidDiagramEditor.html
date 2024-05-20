@@ -1,0 +1,8 @@
+<template>
+    <lightning-card title="Mermaid Diagram Editor (LWC)">
+        <div class="wrapper slds-var-p-horizontal_medium">
+            <lightning-textarea name="textArea" label="Enter Mermaid Code Here" value={textArea} onchange={handleChange}></lightning-textarea>
+            <c-mermaid-diagram graph-definition={textArea}></c-mermaid-diagram>
+        </div>
+    </lightning-card>
+</template>

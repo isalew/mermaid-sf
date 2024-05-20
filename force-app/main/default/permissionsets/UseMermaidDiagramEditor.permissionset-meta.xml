@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Visualize Salesforce data with mermaid.js</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Use Mermaid Diagram Editor</label>
+    <tabSettings>
+        <tab>MermaidDiagramEditor</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>MermaidDiagramEditor</flow>
+    </flowAccesses>
+</PermissionSet>
