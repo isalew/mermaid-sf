@@ -45,10 +45,23 @@ sf org assign permset -n UseMermaidDiagramEditor
 sf org open -p /lightning/n/MermaidDiagramEditor
 ```
 
-The app page will present two examples:
+The sample app page will present two examples:
 
 1. A wrapper LWC with a `lightning-textarea` to provide input
-2. Example 2: A wrapper Screen Flow with a flow text area to provide input
+2. A wrapper Screen Flow with a flow text area to provide input
+
+To use in a component, pass mermaid syntax text into the `graph-definition` html attribute:
+
+```html
+<template>
+    <lightning-textarea name="textArea" label="Diagram Input" value={textArea} onchange={handleChange}></lightning-textarea>
+    <c-mermaid-diagram graph-definition={textArea}></c-mermaid-diagram>
+</template>
+```
+
+To use in a flow, pass mermaid syntax text into the `Graph Definition` flow attribute:
+
+<img src="config/img/Sample: Flow Setup.png" alt="Flow Setup" width="600px" style="border: 1px solid black;"/>
 
 ## Considerations
 
@@ -66,6 +79,8 @@ npm i mermaid@10.9.0
 cp node_modules/mermaid/dist/mermaid.min.js force-app/main/default/staticresources/mermaid.js
 # Replace all `structuredClone()` methods with a simple `JSON.parse(JSON.stringify())` object copy:
 sed -i '' 's/structuredClone(/JSON.parse(JSON.stringify(/g' force-app/main/default/staticresources/mermaid.js
+# Push the updated static resource to the org
+sf project deploy start
 ```
 
 ## Resources
