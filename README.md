@@ -2,6 +2,8 @@
 
 This repo demonstrates how to embed Mermaid.js diagrams as a Lightning Web Component.
 
+<!-- TODO: Configure record page setup, point to a text field and render -->
+
 ## Use Cases
 
 ###### Flow Diagrams

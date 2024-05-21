@@ -12,5 +12,8 @@
         <targetConfig targets="lightning__FlowScreen">
             <property name="graphDefinition" label="Graph Definition" type="String" role="inputOnly" description="Enter Formatted Mermaid Code Here."/>
         </targetConfig>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="graphDefinition" label="Graph Definition" type="String" description="Enter Formatted Mermaid Code Here."/>
+        </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
