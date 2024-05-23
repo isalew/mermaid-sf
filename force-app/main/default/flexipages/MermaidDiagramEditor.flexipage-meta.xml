@@ -7,6 +7,10 @@
                 <identifier>c_mermaidDiagramEditor</identifier>
             </componentInstance>
         </itemInstances>
+        <name>column1</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -21,12 +25,12 @@
                 <identifier>flowruntime_interview</identifier>
             </componentInstance>
         </itemInstances>
-        <name>main</name>
+        <name>column2</name>
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Mermaid Diagram Editor</masterLabel>
     <template>
-        <name>flexipage:defaultAppHomeTemplate</name>
+        <name>flexipage:appHomeTemplateTwoColumns</name>
     </template>
     <type>AppPage</type>
 </FlexiPage>

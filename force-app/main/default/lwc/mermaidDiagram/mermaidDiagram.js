@@ -1,9 +1,13 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import MERMAID_RSC from "@salesforce/resourceUrl/mermaid";
 import { loadScript } from "lightning/platformResourceLoader";
+import { NavigationMixin } from 'lightning/navigation';
+import { IsConsoleNavigation, openTab } from 'lightning/platformWorkspaceApi';
 
-export default class MermaidDiagram extends LightningElement {
+export default class MermaidDiagram extends NavigationMixin(LightningElement) {
 
+    @wire(IsConsoleNavigation) isConsoleNavigation;
+    recordPageUrl;
     _graphDefinition;
 
     @api
@@ -26,7 +30,7 @@ export default class MermaidDiagram extends LightningElement {
                 logLevel: 'debug',
                 flowchart: { htmlLabels: false }
             });
-            window.callback = this.diagramCallback;
+            window.callback = (this.diagramCallback).bind(this);
             this.drawDiagram();
         })
         .catch(error => {
@@ -36,6 +40,20 @@ export default class MermaidDiagram extends LightningElement {
 
     async diagramCallback(event) {
         console.log('diagram clicked: ', event);
+        if (typeof event === 'string' && event.length === 18) {
+            // Open Record URL Page
+            if (this.isConsoleNavigation) {
+                await openTab({ recordId: event })
+            } else {
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: event,
+                        actionName: 'view'
+                    }
+                });
+            }
+        }
     }
 
     async drawDiagram() {

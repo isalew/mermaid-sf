@@ -1,8 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>SetGraphDefinitionAccount</name>
+        <label>Set Graph Definition</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>GraphDefinition</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GetAccountRecord.Description</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RecordDiagramScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SetGraphDefinitionContact</name>
+        <label>Set Graph Definition</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>GraphDefinition</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GetContactRecord.Description</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RecordDiagramScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SetGraphDefinitionPlaceholder</name>
+        <label>Set Placeholder Graph Definition</label>
+        <locationX>842</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>GraphDefinition</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DefaultGraphDefinition</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>PreviewDiagramScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SetRecordGraphDefinitionAccount</name>
+        <label>Set Account Graph Definition</label>
+        <locationX>50</locationX>
+        <locationY>1082</locationY>
+        <assignmentItems>
+            <assignToReference>GetAccountRecord.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DiagramInput</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateAccountRecord</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SetRecordGraphDefinitionContact</name>
+        <label>Set Contact Graph Definition</label>
+        <locationX>314</locationX>
+        <locationY>1082</locationY>
+        <assignmentItems>
+            <assignToReference>GetContactRecord.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DiagramInput</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateContactRecord</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>HasRecordIdDecision</name>
+        <label>Has Record Id?</label>
+        <locationX>578</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>SetGraphDefinitionPlaceholder</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Record Id</defaultConnectorLabel>
+        <rules>
+            <name>HasRecordIdOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetRecordObjectType</targetReference>
+            </connector>
+            <label>Has Record Id</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>RouteObjectSaveDecision</name>
+        <label>Route Object Save</label>
+        <locationX>314</locationX>
+        <locationY>974</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>UnsupportedScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Unsupported</defaultConnectorLabel>
+        <rules>
+            <name>AccountSaveOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRecordObjectType.QualifiedApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Account</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SetRecordGraphDefinitionAccount</targetReference>
+            </connector>
+            <label>Account</label>
+        </rules>
+        <rules>
+            <name>ContactSaveOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRecordObjectType.QualifiedApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Contact</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SetRecordGraphDefinitionContact</targetReference>
+            </connector>
+            <label>Contact</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>RoutObjectTypeDecision</name>
+        <label>Route Object Type</label>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>UnsupportedScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Unsupported</defaultConnectorLabel>
+        <rules>
+            <name>AccountTypeOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRecordObjectType.QualifiedApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Account</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetAccountRecord</targetReference>
+            </connector>
+            <label>Account</label>
+        </rules>
+        <rules>
+            <name>ContactTypeOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRecordObjectType.QualifiedApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Contact</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetContactRecord</targetReference>
+            </connector>
+            <label>Contact</label>
+        </rules>
+    </decisions>
     <description>Visualize data in Salesforce with mermaid.js</description>
     <environments>Default</environments>
+    <formulas>
+        <name>DefaultGraphDefinition</name>
+        <dataType>String</dataType>
+        <expression>&quot;graph TB&quot; + BR() + &quot;a--&gt;b&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>RecordIdObjectKeyPrefix</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!recordId},3)</expression>
+    </formulas>
     <interviewLabel>Mermaid Diagram Editor {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Mermaid Diagram Editor (Flow)</label>
     <processMetadataValues>
@@ -24,19 +220,99 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordLookups>
+        <name>GetAccountRecord</name>
+        <label>Get Account Record</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SetGraphDefinitionAccount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetContactRecord</name>
+        <label>Get Contact Record</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SetGraphDefinitionContact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetRecordObjectType</name>
+        <label>Get Record Object Type</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>RoutObjectTypeDecision</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>KeyPrefix</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RecordIdObjectKeyPrefix</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EntityDefinition</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>UpdateAccountRecord</name>
+        <label>Update Account Record</label>
+        <locationX>50</locationX>
+        <locationY>1190</locationY>
+        <inputReference>GetAccountRecord</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateContactRecord</name>
+        <label>Update Contact Record</label>
+        <locationX>314</locationX>
+        <locationY>1190</locationY>
+        <inputReference>GetContactRecord</inputReference>
+    </recordUpdates>
     <screens>
-        <name>DiagramScreen</name>
-        <label>DiagramScreen</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <name>EditDiagramScreen</name>
+        <label>Edit Diagram Screen</label>
+        <locationX>314</locationX>
+        <locationY>866</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Cancel</backButtonLabel>
+        <connector>
+            <targetReference>RouteObjectSaveDecision</targetReference>
+        </connector>
         <fields>
             <name>DiagramInput</name>
             <defaultValue>
-                <stringValue>graph TB
-a--&gt;b</stringValue>
+                <stringValue>{!GraphDefinition}</stringValue>
             </defaultValue>
             <fieldText>Diagram Input</fieldText>
             <fieldType>LargeTextArea</fieldType>
@@ -57,15 +333,115 @@ a--&gt;b</stringValue>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>PreviewDiagramScreen</name>
+        <label>Preview Diagram Screen</label>
+        <locationX>842</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Cancel</backButtonLabel>
+        <fields>
+            <name>PreviewDiagramInput</name>
+            <defaultValue>
+                <stringValue>{!GraphDefinition}</stringValue>
+            </defaultValue>
+            <fieldText>Diagram Input</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>PreviewDiagram</name>
+            <extensionName>c:mermaidDiagram</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>graphDefinition</name>
+                <value>
+                    <elementReference>PreviewDiagramInput</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>RecordDiagramScreen</name>
+        <label>Record Diagram Screen</label>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>EditDiagramScreen</targetReference>
+        </connector>
+        <fields>
+            <name>RecordDiagramPreview</name>
+            <extensionName>c:mermaidDiagram</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>graphDefinition</name>
+                <value>
+                    <elementReference>GraphDefinition</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <nextOrFinishButtonLabel>Edit</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>UnsupportedScreen</name>
+        <label>Unsupported Screen</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>RecordDiagramScreen</targetReference>
+        </connector>
+        <fields>
+            <name>UnsupportedMessage</name>
+            <fieldText>&lt;p&gt;The {!GetRecordObjectType.Label} object is not supported for diagramming. Please contact your admin to add support for this object.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>50</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>DiagramScreen</targetReference>
+            <targetReference>HasRecordIdDecision</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>GraphDefinition</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>
