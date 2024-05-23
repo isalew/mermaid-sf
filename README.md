@@ -108,7 +108,7 @@ The `htmlLabels: false` config setting does not currently work and text will dis
 
 ### Static Resource Compatibility
 
-The standard `mermaid.min.js` file uses a `structuredClone()` method, which is unsupported in LWC/LWS. A viable workaround is to find and replace all references with a simple JSON object copy:
+The standard `mermaid.min.js` file uses a `structuredClone()` method, which is unsupported in LWC/LWS ([Issue 5538](https://github.com/mermaid-js/mermaid/issues/5538)). A viable workaround is to find and replace all references with a simple JSON object copy:
 
 ```bash
 # Download the latest version of mermaid.js
