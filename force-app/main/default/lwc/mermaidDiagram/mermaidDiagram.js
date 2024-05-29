@@ -57,8 +57,27 @@ export default class MermaidDiagram extends NavigationMixin(LightningElement) {
     }
 
     async drawDiagram() {
-        let {svg, bindFunctions} = await mermaid.render('diagram', this._graphDefinition);
+        // Define a unique ID for the diagram to support custom styling
+        let diagramId = `diagram_${new Date().getTime().toString()}`;
+        let {svg, bindFunctions} = await mermaid.render(diagramId, this._graphDefinition);
         console.log(svg);
+        
+        // Sanitize SVG with unique ID to ensure markers don't disappear when multiple diagrams are present on multiple console tabs
+        const ERMarkers = [
+            "ONLY_ONE_START",
+            "ONLY_ONE_END",
+            "ZERO_OR_ONE_START",
+            "ZERO_OR_ONE_END",
+            "ONE_OR_MORE_START",
+            "ONE_OR_MORE_END",
+            "ZERO_OR_MORE_START",
+            "ZERO_OR_MORE_END"
+        ];
+        for (const marker of ERMarkers) {
+            svg = svg.replaceAll(marker, `${marker}${diagramId}`);
+        }
+        console.log(svg);
+
         let graphDiv = this.template.querySelector(".graphDiv");
         graphDiv.innerHTML = svg;
         bindFunctions?.(graphDiv);
