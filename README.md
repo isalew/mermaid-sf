@@ -51,6 +51,8 @@ To use in a flow, pass mermaid syntax text into the `Graph Definition` flow attr
 
 <img src="config/img/Sample: Flow Setup.png" alt="Sample Flow Setup" width="600px" style="border: 1px solid black"/>
 
+**NOTE**: Use the "Click Target ID" flow attribute to pass any click event's name to the parent flow and invoke the parent flow's "next" event. This allows post-click behavior to be handled by the flow.
+
 ### Embed in a Record Page
 
 To use in a record page, pass a record ID into a flow, query the target text area field, and pass it into the Graph Definition flow attribute. Optionally, update the diagram in flow and update the record text area field.
@@ -68,7 +70,7 @@ To use in a record page, pass a record ID into a flow, query the target text are
 <img src="config/img/Sample: Record Edit.png" alt="Record Edit" width="600px"/>
 
 ### Make Diagram Interactive
-Diagram types that support the `click` callback can be used to open related pages, records, or custom actions when a diagram node is clicked.
+Diagram types that support the `click` callback can be used to open related pages, records, pass event names to parent flows, or invoke custom actions when a diagram node is clicked.
 
 <img src="config/img/Sample: Clickable Diagram.png" alt="Clickable Diagram" width="300px" style="border: 1px solid black"/>
 

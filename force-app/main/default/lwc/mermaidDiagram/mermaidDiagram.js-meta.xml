@@ -11,6 +11,8 @@
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
             <property name="graphDefinition" label="Graph Definition" type="String" role="inputOnly" description="Enter Formatted Mermaid Code Here."/>
+            <property name="useFlowNavigation" label="Use Flow Navigation" type="Boolean" role="inputOnly" description="Pass diagram click events to the flow screen's next event." default="false"/>
+            <property name="clickTargetId" label="Click Target ID" type="String" role="outputOnly" description="ID of clicked element when passing clicks into flow screen navigation"/>
         </targetConfig>
         <targetConfig targets="lightning__RecordPage">
             <property name="graphDefinition" label="Graph Definition" type="String" description="Enter Formatted Mermaid Code Here."/>

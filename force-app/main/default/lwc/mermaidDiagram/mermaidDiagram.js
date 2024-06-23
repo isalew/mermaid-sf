@@ -3,10 +3,14 @@ import MERMAID_RSC from "@salesforce/resourceUrl/mermaid";
 import { loadScript } from "lightning/platformResourceLoader";
 import { NavigationMixin } from 'lightning/navigation';
 import { IsConsoleNavigation, openTab } from 'lightning/platformWorkspaceApi';
+import { FlowNavigationNextEvent } from 'lightning/flowSupport';
 
 export default class MermaidDiagram extends NavigationMixin(LightningElement) {
 
     @wire(IsConsoleNavigation) isConsoleNavigation;
+    @api useFlowNavigation;
+    @api clickTargetId;
+
     recordPageUrl;
     _graphDefinition;
 
@@ -42,7 +46,11 @@ export default class MermaidDiagram extends NavigationMixin(LightningElement) {
         console.log('diagram clicked: ', event);
         if (typeof event === 'string' && event.length === 18) {
             // Open Record URL Page
-            if (this.isConsoleNavigation) {
+            if (this.useFlowNavigation) {
+                this.clickTargetId = event;
+                const navigateNextEvent = new FlowNavigationNextEvent();
+                this.dispatchEvent(navigateNextEvent);
+            } else if (this.isConsoleNavigation) {
                 await openTab({ recordId: event })
             } else {
                 this[NavigationMixin.Navigate]({
